@@ -1,6 +1,6 @@
 import { BookInterface } from './../models/schemas/book';
 
-import { bookService } from '../services';
+import { bookService, rentService } from '../services';
 import { AsyncRequestHandler } from '../types';
 
 interface bookControllerInterface {
@@ -9,6 +9,7 @@ interface bookControllerInterface {
   addBook: AsyncRequestHandler;
   dropBook: AsyncRequestHandler;
   editBook: AsyncRequestHandler;
+  rent: AsyncRequestHandler;
 }
 
 export const bookController: bookControllerInterface = {
@@ -30,9 +31,15 @@ export const bookController: bookControllerInterface = {
     res.json(book);
   },
   async editBook(req, res) {
-    const id = req.params.id;
+    const { id } = req.params;
     const newInfo: BookInterface = req.body;
     const editedBook = await bookService.editBook(id, newInfo);
     res.json(editedBook);
+  },
+
+  async rent(req, res) {
+    const { id } = req.params;
+    const rent = await rentService.rent(id);
+    res.json(rent);
   },
 };

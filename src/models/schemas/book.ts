@@ -9,6 +9,7 @@ export interface BookInterface {
   year: string;
   ISBN: string;
   price: string;
+  isRent: boolean;
 }
 
 export const BookSchema = new Schema<BookInterface>(
@@ -44,6 +45,10 @@ export const BookSchema = new Schema<BookInterface>(
     price: {
       type: String,
       required: true,
+    },
+    isRent: {
+      type: Boolean,
+      default: false,
     },
   },
   {

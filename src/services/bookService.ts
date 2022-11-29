@@ -3,27 +3,28 @@ import { bookModel, bookModelType } from '../models';
 import { BookInterface } from '../models/schemas/book';
 
 class BookService {
-  private Book: bookModelType;
+  protected Book: bookModelType;
 
   constructor(book: bookModelType) {
     this.Book = book;
   }
 
-  async getBooks() {
+  public async getBooks() {
     return await this.Book.find();
   }
 
-  async getBookInfo(id: string) {
+  public async getBookInfo(id: string) {
     return await this.Book.findOne({ id: new ObjectId(id) });
   }
 
-  async addBook(book: BookInterface) {
+  public async addBook(book: BookInterface) {
     return await this.Book.create(book);
   }
-  async dropBook(id: string) {
+  public async dropBook(id: string) {
     return await this.Book.deleteOne({ id: new ObjectId(id) });
   }
-  async editBook(id: string, book: BookInterface) {
+
+  public async editBook(id: string, book: BookInterface) {
     return await this.Book.findOneAndUpdate(
       { id: new ObjectId(id) },
       { $set: book }
@@ -31,6 +32,26 @@ class BookService {
   }
 }
 
-const bookService = new BookService(bookModel);
+class RentService extends BookService {
+  constructor(book: bookModelType) {
+    super(book);
+  }
+  async rent(id: string) {
+    const isRent = JSON.parse(
+      JSON.stringify(await this.getBookInfo(id))
+    ).isRent;
+    if (isRent) {
+      throw new Error('대여중입니다.');
+    }
 
-export { bookService };
+    return await this.Book.findOneAndUpdate(
+      { id: new ObjectId(id) },
+      { isRent: true }
+    );
+  }
+}
+
+const bookService = new BookService(bookModel);
+const rentService = new RentService(bookModel);
+
+export { bookService, rentService };
