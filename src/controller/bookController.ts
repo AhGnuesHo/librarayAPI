@@ -9,7 +9,7 @@ interface bookControllerInterface {
   addBook: AsyncRequestHandler;
   dropBook: AsyncRequestHandler;
   editBook: AsyncRequestHandler;
-  rent: AsyncRequestHandler;
+  handle: AsyncRequestHandler;
 }
 
 export const bookController: bookControllerInterface = {
@@ -37,9 +37,12 @@ export const bookController: bookControllerInterface = {
     res.json(editedBook);
   },
 
-  async rent(req, res) {
-    const { id } = req.params;
-    const rent = await rentService.rent(id);
-    res.json(rent);
+  async handle(req, res) {
+    const { handle, id } = req.params;
+    if (handle === 'return') {
+      res.json(await rentService.return(id));
+    } else if (handle === 'rent') {
+      res.json(await rentService.rent(id));
+    }
   },
 };

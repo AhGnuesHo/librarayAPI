@@ -9,4 +9,5 @@ bookRouter.get('/:id', asyncHandler(bookController.getBookInfo));
 bookRouter.post('/', asyncHandler(bookController.addBook));
 bookRouter.delete('/:id', asyncHandler(bookController.dropBook));
 bookRouter.put('/:id', asyncHandler(bookController.editBook));
-bookRouter.post('/rent/:id', asyncHandler(bookController.rent));
+bookRouter.post('/:handle/:id', asyncHandler(bookController.handle));
+

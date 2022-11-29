@@ -30,6 +30,10 @@ class BookService {
       { $set: book }
     );
   }
+
+  protected async isRent(id: string): Promise<boolean> {
+    return await JSON.parse(JSON.stringify(await this.getBookInfo(id))).isRent;
+  }
 }
 
 class RentService extends BookService {
@@ -37,16 +41,24 @@ class RentService extends BookService {
     super(book);
   }
   async rent(id: string) {
-    const isRent = JSON.parse(
-      JSON.stringify(await this.getBookInfo(id))
-    ).isRent;
-    if (isRent) {
+    return await this.bookHandler(id, true);
+  }
+  async return(id: string) {
+    return await this.bookHandler(id, false);
+  }
+
+  async bookHandler(id: string, status: boolean) {
+    const isRent = await this.isRent(id);
+
+    if (status === true && isRent == true) {
       throw new Error('대여중입니다.');
+    } else if (status === false && isRent == false) {
+      throw new Error('대출 기록이 없습니다.');
     }
 
     return await this.Book.findOneAndUpdate(
       { id: new ObjectId(id) },
-      { isRent: true }
+      { isRent: status }
     );
   }
 }
