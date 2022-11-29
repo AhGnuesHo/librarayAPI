@@ -15,7 +15,7 @@ export interface BookInterface {
 export const BookSchema = new Schema<BookInterface>(
   {
     id: {
-      type: Object,
+      type: Schema.Types.ObjectId,
       required: true,
     },
     name: {
