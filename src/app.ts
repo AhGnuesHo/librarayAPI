@@ -10,7 +10,7 @@ import { errorHandler } from './middlewares';
 import { indexRouter, bookRouter } from './routers';
 import { endPoint } from './constants';
 
-const app = express();
+export const app = express();
 
 mongoose.connect(mongoDBUri);
 mongoose.connection.on('connected', () => {

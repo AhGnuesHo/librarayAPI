@@ -5,7 +5,7 @@ import { BookInterface } from '../models/schemas/book';
 export class BookService {
   protected Book: bookModelType;
 
-  constructor(book: bookModelType) {
+  constructor(protected book: bookModelType) {
     this.Book = book;
   }
 
@@ -13,22 +13,19 @@ export class BookService {
     return await this.Book.find();
   }
 
-  public async getBookInfo(id: string) {
-    return await this.Book.findOne({ id: new ObjectId(id) });
+  public async getBookInfo(_id: string) {
+    return await this.Book.findOne({ _id });
   }
 
   public async addBook(book: BookInterface) {
     return await this.Book.create(book);
   }
-  public async dropBook(id: string) {
-    return await this.Book.deleteOne({ id: new ObjectId(id) });
+  public async dropBook(_id: string) {
+    return await this.Book.deleteOne({ _id });
   }
 
-  public async editBook(id: string, book: BookInterface) {
-    return await this.Book.findOneAndUpdate(
-      { id: new ObjectId(id) },
-      { $set: book }
-    );
+  public async editBook(_id: string, book: BookInterface) {
+    return await this.Book.findOneAndUpdate({ _id }, { $set: book });
   }
 
   protected async isRent(id: string): Promise<boolean> {

@@ -13,8 +13,8 @@ export class RentService extends BookService {
     return await this.bookHandler(id, false);
   }
 
-  async bookHandler(id: string, status: boolean) {
-    const isRent = await this.isRent(id);
+  async bookHandler(_id: string, status: boolean) {
+    const isRent = await this.isRent(_id);
 
     if (status === true && isRent == true) {
       throw new Error('대여중입니다.');
@@ -22,10 +22,7 @@ export class RentService extends BookService {
       throw new Error('대출 기록이 없습니다.');
     }
 
-    return await this.Book.findOneAndUpdate(
-      { id: new ObjectId(id) },
-      { isRent: status }
-    );
+    return await this.Book.findOneAndUpdate({ _id }, { isRent: status });
   }
 }
 

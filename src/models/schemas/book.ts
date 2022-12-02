@@ -1,7 +1,8 @@
-import { Schema, ObjectId } from 'mongoose';
+import { ObjectId } from 'mongodb';
+import { Schema } from 'mongoose';
 
 export interface BookInterface {
-  id: ObjectId;
+  _id: ObjectId;
   name: string;
   author: string;
   country: string;
@@ -14,8 +15,8 @@ export interface BookInterface {
 
 export const BookSchema = new Schema<BookInterface>(
   {
-    id: {
-      type: Schema.Types.ObjectId,
+    _id: {
+      type: ObjectId,
       required: true,
     },
     name: {
