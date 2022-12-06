@@ -2,7 +2,6 @@ import { ObjectId } from 'mongodb';
 import { Schema } from 'mongoose';
 
 export interface BookInterface {
-  _id: ObjectId;
   name: string;
   author: string;
   country: string;
@@ -15,10 +14,6 @@ export interface BookInterface {
 
 export const BookSchema = new Schema<BookInterface>(
   {
-    _id: {
-      type: ObjectId,
-      required: true,
-    },
     name: {
       type: String,
       required: true,

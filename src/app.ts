@@ -10,7 +10,7 @@ import { errorHandler } from './middlewares';
 import { indexRouter, bookRouter } from './routers';
 import { endPoint } from './constants';
 
-export const app = express();
+const app = express();
 
 mongoose.connect(mongoDBUri);
 mongoose.connection.on('connected', () => {
@@ -32,6 +32,4 @@ app.use(function (req, res, next) {
 
 app.use(errorHandler);
 
-app.listen(port, () => {
-  console.log(`Server listening on port: ${port}`);
-});
+export { app };
